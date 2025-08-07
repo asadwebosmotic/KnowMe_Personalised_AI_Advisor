@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pydantic
+pydantic_settings
+qdrant-client
+python-dotenv
+sentence-transformers
+langchain
+langchain_google_genai
+pdfplumber
+pytesseract
+llama-parse
+tenacity
+python-multipart
