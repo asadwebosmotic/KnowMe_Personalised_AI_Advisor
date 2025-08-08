@@ -4,9 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 import os, tempfile
 from data_processing.parsing_chunking import extract, chunk_pdfplumber_parsed_data
-from data_processing.embedding import embed_model, embed_and_store_pdf, client
+from data_processing.embedding import embed_model, embed_and_store_pdf, client, get_user_profile_qdrant
 from src.llm_config import invoke_with_retry
-from qdrant_client import QdrantClient
 from sentence_transformers import CrossEncoder
 from qdrant_client.http.models import Filter, FieldCondition, MatchValue
 import threading
@@ -84,18 +83,27 @@ async def chat_with_knowMe(user_msg: str, request: Request):
         if not user_msg.strip():
             raise HTTPException(status_code=400, detail="User message cannot be empty")
 
+        # ✅ Identify user (frontend should send it in headers or auth)
+        user_id = request.headers.get("X-User-ID", "anonymous")
+
+        # ✅ Step 0: Get user profile
+        profile_context = get_user_profile_qdrant(user_id)
+
         # Step 1: Embed user query
         query_vector = embed_model.encode(user_msg).tolist()
 
-        # Step 2: Qdrant semantic search (no filter by PDF)
+        # Step 2: Search Qdrant for document chunks
         results = client.search(
             collection_name="KnowMe_chunks",
             query_vector=query_vector,
             limit=20,
             with_payload=True,
+            query_filter=Filter(
+                must=[FieldCondition(key="user_id", match=MatchValue(value=user_id))]
+            )  # ✅ Only this user's docs
         )
 
-        # Rerank and build context
+        # Step 3: Rerank
         context = ""
         references = []
         if results:
@@ -115,12 +123,14 @@ async def chat_with_knowMe(user_msg: str, request: Request):
 
             context = "\n---\n".join(top_chunks)
 
-        # Step 4: Build final prompt input
+        # Step 4: Build final input
+        final_context = f"User Profile:\n{profile_context}\n\nRetrieved Context:\n{context}" if profile_context else context
+
         prompt_input = {
-            "input": f"{user_msg}\n\n{context if context else ''}"
+            "input": f"{user_msg}\n\n{final_context if final_context else ''}"
         }
 
-        # Step 5: Generate response from Gemini
+        # Step 5: Get LLM output
         response = invoke_with_retry(prompt_input)
 
         return {

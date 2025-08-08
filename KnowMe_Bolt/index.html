@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowMe - Your Personalized AI Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+                        <defs>
+                            <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#4F46E5;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <path d="M16 28C16 28 26 22 26 14C26 10.6863 23.3137 8 20 8C18.3431 8 16.8784 8.68627 16 9.75736C15.1216 8.68627 13.6569 8 12 8C8.68629 8 6 10.6863 6 14C6 22 16 28 16 28Z" fill="url(#heartGradient)" filter="url(#glow)"/>
+                        <circle cx="20" cy="12" r="1.5" fill="white" opacity="0.9"/>
+                        <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9"/>
+                        <path d="M14 16C14 16 15 17 16 17C17 17 18 16 18 16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.9"/>
+                    </svg>
+                    <span>KnowMe</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav">
+                    <div class="nav-item active" data-tab="assistant">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M7 2V6" stroke="currentColor" stroke-width="2"/>
+                            <path d="M17 2V6" stroke="currentColor" stroke-width="2"/>
+                            <path d="M7 12H17" stroke="currentColor" stroke-width="2"/>
+                            <path d="M7 16H12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Assistant</span>
+                    </div>
+
+                    <div class="nav-item" data-tab="documents">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6A2 2 0 0 0 4 4V20A2 2 0 0 0 6 22H18A2 2 0 0 0 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Documents</span>
+                        <span class="nav-badge" id="doc-count">0</span>
+                    </div>
+
+                    <div class="nav-item" data-tab="settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M19.4 15A1.65 1.65 0 0 0 18 12A1.65 1.65 0 0 0 19.4 9A1.65 1.65 0 0 1 21 7.5A1.65 1.65 0 0 1 19.4 6A1.65 1.65 0 0 0 18 4.5A1.65 1.65 0 0 0 16.6 6A1.65 1.65 0 0 1 15 7.5A1.65 1.65 0 0 1 13.4 6A1.65 1.65 0 0 0 12 4.5A1.65 1.65 0 0 0 10.6 6A1.65 1.65 0 0 1 9 7.5A1.65 1.65 0 0 1 7.4 6A1.65 1.65 0 0 0 6 4.5A1.65 1.65 0 0 0 4.6 6A1.65 1.65 0 0 1 3 7.5A1.65 1.65 0 0 1 4.6 9A1.65 1.65 0 0 0 6 12A1.65 1.65 0 0 0 4.6 15A1.65 1.65 0 0 1 3 16.5A1.65 1.65 0 0 1 4.6 18A1.65 1.65 0 0 0 6 19.5A1.65 1.65 0 0 0 7.4 18A1.65 1.65 0 0 1 9 16.5A1.65 1.65 0 0 1 10.6 18A1.65 1.65 0 0 0 12 19.5A1.65 1.65 0 0 0 13.4 18A1.65 1.65 0 0 1 15 16.5A1.65 1.65 0 0 1 16.6 18A1.65 1.65 0 0 0 18 19.5A1.65 1.65 0 0 0 19.4 18A1.65 1.65 0 0 1 21 16.5A1.65 1.65 0 0 1 19.4 15Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Settings</span>
+                    </div>
+                </nav>
+
+                <!-- Documents Section -->
+                <div class="documents-section" id="documents-section" style="display: none;">
+                    <h3>Your Documents</h3>
+                    <div class="document-list" id="document-list">
+                        <!-- Documents will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="sidebar-bottom">
+                <div class="time-status">
+                    <span id="session-time">0h:00m</span>
+                    <button class="status-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header" id="main-header">
+                <h1 id="header-title">Tell me your story, and I'll remember it forever.</h1>
+            </header>
+
+            <!-- Welcome Section -->
+            <section class="welcome-section" id="welcome-section">
+                <div class="welcome-text">
+                    <h2>How can I help you <span class="highlight">today?</span></h2>
+                    <p>Ask questions, compose drafts & discover insights</p>
+                </div>
+
+                <div class="feature-cards">
+                    <div class="feature-card" data-accent="primary">
+                        <h3>Ask Questions</h3>
+                        <p>Get instant answers and insights based on your uploaded documents</p>
+                        <div class="card-actions">
+                            <button class="chip-btn" onclick="handleQuickQuestion('What are my key insights from uploaded documents?')">Key insights</button>
+                            <button class="chip-btn" onclick="handleQuickQuestion('Can you summarize my documents?')">Summarize docs</button>
+                        </div>
+                        <div class="upload-section">
+                            <input type="file" id="pdf-upload" accept=".pdf" style="display: none;">
+                            <button class="upload-btn" onclick="document.getElementById('pdf-upload').click()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 15V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                    <polyline points="17,8 12,3 7,8" stroke="currentColor" stroke-width="2"/>
+                                    <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                Upload Document
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-accent="secondary">
+                        <h3>Summarize Questions</h3>
+                        <p>Get concise summaries and key takeaways from your data</p>
+                        <div class="card-actions">
+                            <button class="chip-btn" onclick="handleQuickQuestion('What are the main points?')">Main points</button>
+                            <button class="chip-btn" onclick="handleQuickQuestion('Create a brief summary')">Brief summary</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-accent="accent">
+                        <h3>Discover KnowMe</h3>
+                        <p>Learn about personalized AI recommendations and insights</p>
+                        <div class="card-actions">
+                            <button class="chip-btn" onclick="handleQuickQuestion('How does KnowMe work?')">How it works</button>
+                            <button class="chip-btn" onclick="handleQuickQuestion('What can KnowMe help me with?')">Features</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section class="chat-section" id="chat-section" style="display: none;">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Chat messages will be populated here -->
+                </div>
+            </section>
+
+            <!-- Documents Management Section -->
+            <section class="documents-management" id="documents-management" style="display: none;">
+                <div class="documents-content">
+                    <div class="documents-header">
+                        <h2>Your Knowledge Base</h2>
+                        <p>Upload and manage your personal documents to enhance KnowMe's understanding of you.</p>
+                    </div>
+                    
+                    <div class="upload-area">
+                        <input type="file" id="doc-upload" accept=".pdf" style="display: none;">
+                        <button class="upload-area-btn" onclick="document.getElementById('doc-upload').click()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V15" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="17,8 12,3 7,8" stroke="currentColor" stroke-width="2"/>
+                                <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Drop your PDF here or click to upload</span>
+                        </button>
+                    </div>
+                    
+                    <div class="documents-grid" id="documents-grid">
+                        <!-- Documents will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section" id="settings-section" style="display: none;">
+                <div class="settings-content">
+                    <div class="settings-header">
+                        <h2>Your secrets are safe with me… and so are your dreams.</h2>
+                        <p>Help me understand you better so I can provide more personalized advice and support.</p>
+                    </div>
+                    
+                    <form class="personality-form" id="personality-form">
+                        <!-- Step 1: Let's Get Acquainted -->
+                        <div class="form-step active" data-step="1">
+                            <h3>Let's Get Acquainted</h3>
+                            <p>Warm intro questions so I get your personality context</p>
+                            
+                            <div class="form-group">
+                                <label>If we were friends, what would you want me to call you?</label>
+                                <input type="text" name="nickname" placeholder="Your preferred name...">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Your cake day?</label>
+                                <input type="date" name="birthday">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select name="gender">
+                                    <option value="">Select...</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="non-binary">Non-binary</option>
+                                    <option value="prefer-not-to-say">Prefer not to say</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Preferred Language(s)</label>
+                                <input type="text" name="languages" placeholder="English, Spanish, etc.">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>On a weekend, you're most likely to...</label>
+                                <select name="weekend_activity">
+                                    <option value="">Select...</option>
+                                    <option value="binge-netflix">Binge Netflix</option>
+                                    <option value="go-hiking">Go hiking</option>
+                                    <option value="work-projects">Work on side projects</option>
+                                    <option value="meet-friends">Meet friends</option>
+                                    <option value="sleep-in">Sleep in</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: What's Important to You -->
+                        <div class="form-step" data-step="2">
+                            <h3>What's Important to You</h3>
+                            <p>This sets priority in my advice</p>
+                            
+                            <div class="form-group">
+                                <label>Right now, what's your #1 focus in life?</label>
+                                <select name="life_focus">
+                                    <option value="">Select...</option>
+                                    <option value="health">Health</option>
+                                    <option value="career">Career</option>
+                                    <option value="money">Money</option>
+                                    <option value="relationships">Relationships</option>
+                                    <option value="learning">Learning</option>
+                                    <option value="mental-peace">Mental Peace</option>
+                                    <option value="travel">Travel</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>What motivates you the most?</label>
+                                <select name="motivation">
+                                    <option value="">Select...</option>
+                                    <option value="achievements">Achievements</option>
+                                    <option value="stability">Stability</option>
+                                    <option value="freedom">Freedom</option>
+                                    <option value="learning">Learning</option>
+                                    <option value="helping-others">Helping others</option>
+                                    <option value="recognition">Recognition</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>If I could help you achieve one big win in the next 3 months, what would it be?</label>
+                                <textarea name="big_win" placeholder="Describe your goal..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Your World -->
+                        <div class="form-step" data-step="3">
+                            <h3>Your World</h3>
+                            <p>Environment & constraints so advice is realistic</p>
+                            
+                            <div class="form-group">
+                                <label>Where do you live? (City + Country)</label>
+                                <input type="text" name="location" placeholder="New York, USA">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>How do you usually get around?</label>
+                                <select name="transportation">
+                                    <option value="">Select...</option>
+                                    <option value="drive">Drive</option>
+                                    <option value="public-transport">Public transport</option>
+                                    <option value="bike">Bike</option>
+                                    <option value="walk">Walk</option>
+                                    <option value="mixed">Mixed</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Who do you live with?</label>
+                                <select name="living_situation">
+                                    <option value="">Select...</option>
+                                    <option value="alone">Alone</option>
+                                    <option value="partner">Partner</option>
+                                    <option value="family">Family</option>
+                                    <option value="roommates">Roommates</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Do you work from home, office, or hybrid?</label>
+                                <select name="work_style">
+                                    <option value="">Select...</option>
+                                    <option value="home">Work from home</option>
+                                    <option value="office">Office</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="not-working">Not working</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Money Mindset -->
+                        <div class="form-step" data-step="4">
+                            <h3>Money Mindset</h3>
+                            <p>For financial advice personalization (skip if you prefer)</p>
+                            
+                            <div class="form-group">
+                                <label>How do you feel about your current finances?</label>
+                                <select name="financial_status">
+                                    <option value="">Select...</option>
+                                    <option value="stable">Stable</option>
+                                    <option value="need-to-save">Need to save more</option>
+                                    <option value="struggling">Struggling</option>
+                                    <option value="growing-wealth">Growing wealth</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Do you prefer strict budgets or flexible spending plans?</label>
+                                <select name="budget_style">
+                                    <option value="">Select...</option>
+                                    <option value="strict-budget">Strict budgets</option>
+                                    <option value="flexible-spending">Flexible spending</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Are you more of a saver, spender, or investor?</label>
+                                <select name="money_personality">
+                                    <option value="">Select...</option>
+                                    <option value="saver">Saver</option>
+                                    <option value="spender">Spender</option>
+                                    <option value="investor">Investor</option>
+                                    <option value="balanced">Balanced</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Wellness & Energy -->
+                        <div class="form-step" data-step="5">
+                            <h3>Wellness & Energy</h3>
+                            <p>For health/lifestyle recommendations</p>
+                            
+                            <div class="form-group">
+                                <label>What's your usual sleep pattern?</label>
+                                <select name="sleep_pattern">
+                                    <option value="">Select...</option>
+                                    <option value="early-bird">Early bird</option>
+                                    <option value="night-owl">Night owl</option>
+                                    <option value="inconsistent">Inconsistent</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>How often do you exercise?</label>
+                                <select name="exercise_frequency">
+                                    <option value="">Select...</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="few-times-week">Few times a week</option>
+                                    <option value="rarely">Rarely</option>
+                                    <option value="never">Never</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Any dietary preferences or restrictions?</label>
+                                <select name="diet">
+                                    <option value="">Select...</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="non-vegetarian">Non-vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="keto">Keto</option>
+                                    <option value="no-restrictions">No restrictions</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>How do you usually deal with stress?</label>
+                                <select name="stress_management">
+                                    <option value="">Select...</option>
+                                    <option value="exercise">Exercise</option>
+                                    <option value="talking">Talking to someone</option>
+                                    <option value="alone-time">Alone time</option>
+                                    <option value="food">Food</option>
+                                    <option value="meditation">Meditation</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Fun Stuff -->
+                        <div class="form-step" data-step="6">
+                            <h3>Fun Stuff</h3>
+                            <p>Inject personality into my tone</p>
+                            
+                            <div class="form-group">
+                                <label>Your favourite way to spend a free evening?</label>
+                                <textarea name="free_evening" placeholder="Describe your ideal evening..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Favourite comfort food or drink?</label>
+                                <input type="text" name="comfort_food" placeholder="Pizza, coffee, tea...">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Dream travel destination?</label>
+                                <input type="text" name="dream_destination" placeholder="Where would you love to go?">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>One random fact you love sharing?</label>
+                                <textarea name="random_fact" placeholder="Something interesting about you..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 7: Communication Style -->
+                        <div class="form-step" data-step="7">
+                            <h3>How Should I Talk to You?</h3>
+                            <p>Interaction style preferences</p>
+                            
+                            <div class="form-group">
+                                <label>Tone preference</label>
+                                <select name="tone_preference">
+                                    <option value="">Select...</option>
+                                    <option value="friendly">Friendly</option>
+                                    <option value="professional">Professional</option>
+                                    <option value="playful">Playful</option>
+                                    <option value="supportive">Supportive</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Response length preference</label>
+                                <select name="response_length">
+                                    <option value="">Select...</option>
+                                    <option value="quick-tips">Quick tips</option>
+                                    <option value="detailed-explanations">Detailed explanations</option>
+                                    <option value="mix">Mix of both</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary" id="prev-step" style="display: none;">Previous</button>
+                            <button type="button" class="btn-primary" id="next-step">Next</button>
+                            <button type="submit" class="btn-primary" id="save-personality" style="display: none;">Save My Personality</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Type your question here…" />
+                    <button class="send-btn" id="send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2"/>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Processing your request...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="delete-modal" style="display: none;">
+        <div class="modal">
+            <h3>Delete Document</h3>
+            <p>Are you sure you want to delete "<span id="delete-filename"></span>"?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>

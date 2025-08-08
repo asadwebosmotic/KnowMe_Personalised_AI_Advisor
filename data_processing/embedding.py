@@ -3,7 +3,7 @@ import os
 import uuid
 from typing import List
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, VectorParams, PointStruct
+from qdrant_client.http.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
 from sentence_transformers import SentenceTransformer
 
 # === Configure logging ===
@@ -20,6 +20,12 @@ if not client.collection_exists("KnowMe_chunks"):
         collection_name="KnowMe_chunks",
         vectors_config=VectorParams(size=768, distance=Distance.COSINE)
 )
+    
+if not client.collection_exists("KnowMe_profiles"):
+    client.create_collection(
+        collection_name="KnowMe_profiles",
+        vectors_config=VectorParams(size=768, distance=Distance.COSINE)
+    )
 
 # === Core Function to Embed and Store PDF Data ===
 def embed_and_store_pdf(chunks: List[dict]) -> List[PointStruct]:
@@ -59,3 +65,31 @@ def embed_and_store_pdf(chunks: List[dict]) -> List[PointStruct]:
     logger.info(f"📦 Stored {len(points)} chunks into Qdrant.")
 
     return points  # Useful for testing or future chaining (e.g. rerank preview)
+
+def save_user_profile_qdrant(user_id, profile_data):
+    # Convert dict to readable string for embedding
+    profile_text = "\n".join([f"{k}: {v}" for k, v in profile_data.items()])
+    
+    vector = embed_model.encode(profile_text).tolist()
+    
+    point = PointStruct(
+        id=user_id,  # use user_id so you can update it later
+        vector=vector,
+        payload={
+            "user_id": user_id,
+            "profile_text": profile_text,
+            "type": "user_profile"
+        }
+    )
+    
+    client.upsert(collection_name="KnowMe_profiles", points=[point])
+
+def get_user_profile_qdrant(user_id):
+    results = client.scroll(
+        collection_name="KnowMe_profiles",
+        scroll_filter=Filter(must=[FieldCondition(key="user_id", match=MatchValue(value=user_id))]),
+        limit=1
+    )
+    if results[0]:
+        return results[0][0].payload.get("profile_text", "")
+    return ""

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Upload Management - KnowMe AI Advisor</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fknowmeai6536back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background font-inter">
+    <!-- Main Container -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 -translate-x-full fixed lg:relative z-30 h-full">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-text-primary">KnowMe AI</h1>
+                        <p class="text-xs text-text-secondary">Advisor</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 px-4 py-6 space-y-2">
+                <a href="main_dashboard_with_chat_interface.html" class="flex items-center px-4 py-3 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    Chat Dashboard
+                    <span class="ml-auto bg-secondary-500 text-white text-xs px-2 py-1 rounded-full notification-badge">3</span>
+                </a>
+                
+                <a href="document_upload_management.html" class="flex items-center px-4 py-3 text-sm font-medium text-white bg-primary-600 rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                    Document Manager
+                </a>
+
+                <a href="javascript:void(0)" class="flex items-center px-4 py-3 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    Analytics
+                </a>
+
+                <a href="javascript:void(0)" class="flex items-center px-4 py-3 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+
+            <!-- Uploaded Documents Section -->
+            <div class="px-4 py-4 border-t border-gray-100">
+                <h3 class="text-sm font-medium text-text-primary mb-3">Uploaded Documents</h3>
+                <div id="uploadedDocuments" class="space-y-2">
+                    <!-- Document Item 1 -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-text-primary">Financial_Report_2024.pdf</p>
+                                <p class="text-xs text-text-secondary">2.4 MB</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteDocument('Financial_Report_2024.pdf')" class="p-1 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Document Item 2 -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-text-primary">Health_Records.pdf</p>
+                                <p class="text-xs text-text-secondary">1.8 MB</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteDocument('Health_Records.pdf')" class="p-1 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile -->
+            <div class="p-4 border-t border-gray-100">
+                <div class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User Avatar" class="w-10 h-10 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                    <div>
+                        <p class="text-sm font-medium text-text-primary">Alex Johnson</p>
+                        <p class="text-xs text-text-secondary">admin@knowme.ai</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white border-b border-gray-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <!-- Mobile Menu Button -->
+                        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                            <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                        
+                        <div>
+                            <h1 class="text-2xl font-semibold text-text-primary">Document Management</h1>
+                            <p class="text-sm text-text-secondary">Upload and manage your PDF documents for AI analysis</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <!-- Security Badge -->
+                        <div class="flex items-center space-x-2 px-3 py-1 bg-secondary-50 rounded-lg">
+                            <svg class="w-4 h-4 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <span class="text-xs font-medium text-secondary-600">SSL Secured</span>
+                        </div>
+
+                        <!-- Back to Chat Button -->
+                        <a href="main_dashboard_with_chat_interface.html" class="btn-primary flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                            <span>Back to Chat</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Upload Statistics -->
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-text-secondary">Total Documents</p>
+                                    <p class="text-2xl font-semibold text-text-primary">2</p>
+                                </div>
+                                <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-text-secondary">Total Size</p>
+                                    <p class="text-2xl font-semibold text-text-primary">4.2 MB</p>
+                                </div>
+                                <div class="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-text-secondary">Last Upload</p>
+                                    <p class="text-2xl font-semibold text-text-primary">Today</p>
+                                </div>
+                                <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="card p-8 mb-8">
+                        <div id="uploadArea" class="file-upload-area border-2 border-dashed border-gray-300 rounded-xl p-12 text-center transition-all duration-300 hover:border-primary-600 hover:bg-primary-50">
+                            <div class="max-w-md mx-auto">
+                                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-text-primary mb-2">Upload PDF Documents</h3>
+                                <p class="text-text-secondary mb-4">Drag and drop your PDF files here, or click to browse</p>
+                                <div class="flex items-center justify-center space-x-4 text-sm text-text-secondary mb-4">
+                                    <span>• PDF files only</span>
+                                    <span>• Max 10MB per file</span>
+                                    <span>• Multiple files supported</span>
+                                </div>
+                                <input type="file" id="fileInput" class="hidden" accept=".pdf" multiple />
+                                <button onclick="document.getElementById('fileInput').click()" class="btn-primary">
+                                    Choose Files
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="uploadProgress" class="hidden mt-6">
+                            <div class="bg-gray-100 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-text-primary">Uploading...</span>
+                                    <span id="progressPercentage" class="text-sm text-text-secondary">0%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div id="progressBar" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Document List -->
+                    <div class="card">
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-lg font-semibold text-text-primary">Uploaded Documents</h2>
+                                <div class="flex items-center space-x-2">
+                                    <button id="selectAllBtn" class="text-sm text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                                        Select All
+                                    </button>
+                                    <button id="deleteSelectedBtn" class="text-sm text-red-600 hover:text-red-700 transition-colors duration-200 hidden">
+                                        Delete Selected
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="documentList" class="divide-y divide-gray-100">
+                            <!-- Document Item 1 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                                <div class="flex items-center space-x-4">
+                                    <input type="checkbox" class="document-checkbox w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500" />
+                                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-semibold text-text-primary">Financial_Report_2024.pdf</h3>
+                                        <div class="flex items-center space-x-4 text-xs text-text-secondary mt-1">
+                                            <span>2.4 MB</span>
+                                            <span>•</span>
+                                            <span>Uploaded Aug 8, 2025</span>
+                                            <span>•</span>
+                                            <span class="status-success px-2 py-1 rounded-full">Processed</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="previewDocument('Financial_Report_2024.pdf')" class="p-2 text-gray-400 hover:text-primary-600 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="downloadDocument('Financial_Report_2024.pdf')" class="p-2 text-gray-400 hover:text-secondary-600 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="deleteDocument('Financial_Report_2024.pdf')" class="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document Item 2 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                                <div class="flex items-center space-x-4">
+                                    <input type="checkbox" class="document-checkbox w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500" />
+                                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-sm font-semibold text-text-primary">Health_Records.pdf</h3>
+                                        <div class="flex items-center space-x-4 text-xs text-text-secondary mt-1">
+                                            <span>1.8 MB</span>
+                                            <span>•</span>
+                                            <span>Uploaded Aug 7, 2025</span>
+                                            <span>•</span>
+                                            <span class="status-success px-2 py-1 rounded-full">Processed</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="previewDocument('Health_Records.pdf')" class="p-2 text-gray-400 hover:text-primary-600 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="downloadDocument('Health_Records.pdf')" class="p-2 text-gray-400 hover:text-secondary-600 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="deleteDocument('Health_Records.pdf')" class="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate-slide-up">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-text-primary mb-2">Delete Document</h3>
+                <p class="text-text-secondary mb-6">Are you sure you want to delete <span id="deleteFileName" class="font-medium"></span>? This action cannot be undone.</p>
+                <div class="flex space-x-3">
+                    <button id="cancelDelete" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-text-secondary hover:bg-gray-50 transition-colors duration-200">
+                        Cancel
+                    </button>
+                    <button id="confirmDelete" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl max-w-4xl w-full mx-4 h-5/6 animate-slide-up">
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-text-primary">Document Preview</h3>
+                <button id="closePreview" class="p-2 text-gray-400 hover:text-text-primary transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6 h-full overflow-y-auto">
+                <div class="bg-gray-100 rounded-lg p-8 text-center h-full flex items-center justify-center">
+                    <div>
+                        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                        <p class="text-lg text-gray-600">PDF Preview</p>
+                        <p class="text-sm text-gray-500 mt-2">Document preview would be displayed here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="fixed top-4 right-4 bg-secondary-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 hidden animate-slide-up">
+        <div class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span id="toastMessage">Document uploaded successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        });
+
+        // File upload functionality
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercentage = document.getElementById('progressPercentage');
+
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('border-primary-600', 'bg-primary-50');
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('border-primary-600', 'bg-primary-50');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('border-primary-600', 'bg-primary-50');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            const validFiles = [];
+            
+            for (let file of files) {
+                if (file.type === 'application/pdf') {
+                    if (file.size <= 10 * 1024 * 1024) { // 10MB limit
+                        validFiles.push(file);
+                    } else {
+                        showToast('File size exceeds 10MB limit: ' + file.name, 'error');
+                    }
+                } else {
+                    showToast('Only PDF files are allowed: ' + file.name, 'error');
+                }
+            }
+
+            if (validFiles.length > 0) {
+                uploadFiles(validFiles);
+            }
+        }
+
+        function uploadFiles(files) {
+            uploadProgress.classList.remove('hidden');
+            let progress = 0;
+            const increment = 100 / files.length;
+
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    progress += increment;
+                    progressBar.style.width = progress + '%';
+                    progressPercentage.textContent = Math.round(progress) + '%';
+
+                    if (progress >= 100) {
+                        setTimeout(() => {
+                            uploadProgress.classList.add('hidden');
+                            progressBar.style.width = '0%';
+                            progressPercentage.textContent = '0%';
+                            showToast('Documents uploaded successfully!', 'success');
+                            addDocumentToList(file);
+                            updateSidebar(file);
+                        }, 500);
+                    }
+                }, index * 1000);
+            });
+        }
+
+        function addDocumentToList(file) {
+            const documentList = document.getElementById('documentList');
+            const fileSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+            const uploadDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+
+            const documentItem = document.createElement('div');
+            documentItem.className = 'p-6 hover:bg-gray-50 transition-colors duration-200';
+            documentItem.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <input type="checkbox" class="document-checkbox w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-semibold text-text-primary">${file.name}</h3>
+                        <div class="flex items-center space-x-4 text-xs text-text-secondary mt-1">
+                            <span>${fileSize}</span>
+                            <span>•</span>
+                            <span>Uploaded ${uploadDate}</span>
+                            <span>•</span>
+                            <span class="status-success px-2 py-1 rounded-full">Processed</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="previewDocument('${file.name}')" class="p-2 text-gray-400 hover:text-primary-600 transition-colors duration-200">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="downloadDocument('${file.name}')" class="p-2 text-gray-400 hover:text-secondary-600 transition-colors duration-200">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteDocument('${file.name}')" class="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            documentList.appendChild(documentItem);
+        }
+
+        function updateSidebar(file) {
+            const uploadedDocuments = document.getElementById('uploadedDocuments');
+            const fileSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+
+            const documentItem = document.createElement('div');
+            documentItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+            documentItem.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-text-primary">${file.name}</p>
+                        <p class="text-xs text-text-secondary">${fileSize}</p>
+                    </div>
+                </div>
+                <button onclick="deleteDocument('${file.name}')" class="p-1 text-gray-400 hover:text-red-500 transition-colors duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            `;
+
+            uploadedDocuments.appendChild(documentItem);
+        }
+
+        // Document actions
+        let documentToDelete = '';
+
+        function deleteDocument(filename) {
+            documentToDelete = filename;
+            document.getElementById('deleteFileName').textContent = filename;
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function previewDocument(filename) {
+            document.getElementById('previewModal').classList.remove('hidden');
+        }
+
+        function downloadDocument(filename) {
+            showToast(`Downloading ${filename}...`, 'success');
+        }
+
+        // Modal functionality
+        document.getElementById('cancelDelete').addEventListener('click', () => {
+            document.getElementById('deleteModal').classList.add('hidden');
+        });
+
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            // Remove from main list
+            const documentItems = document.querySelectorAll('#documentList > div');
+            documentItems.forEach(item => {
+                if (item.textContent.includes(documentToDelete)) {
+                    item.remove();
+                }
+            });
+
+            // Remove from sidebar
+            const sidebarItems = document.querySelectorAll('#uploadedDocuments > div');
+            sidebarItems.forEach(item => {
+                if (item.textContent.includes(documentToDelete)) {
+                    item.remove();
+                }
+            });
+
+            document.getElementById('deleteModal').classList.add('hidden');
+            showToast(`${documentToDelete} deleted successfully!`, 'success');
+        });
+
+        document.getElementById('closePreview').addEventListener('click', () => {
+            document.getElementById('previewModal').classList.add('hidden');
+        });
+
+        // Checkbox functionality
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+
+        selectAllBtn.addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('.document-checkbox');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            selectAllBtn.textContent = allChecked ? 'Select All' : 'Deselect All';
+            updateDeleteButton();
+        });
+
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('document-checkbox')) {
+                updateDeleteButton();
+            }
+        });
+
+        function updateDeleteButton() {
+            const checkedBoxes = document.querySelectorAll('.document-checkbox:checked');
+            if (checkedBoxes.length > 0) {
+                deleteSelectedBtn.classList.remove('hidden');
+            } else {
+                deleteSelectedBtn.classList.add('hidden');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('successToast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'error') {
+                toast.className = toast.className.replace('bg-secondary-600', 'bg-red-600');
+            } else {
+                toast.className = toast.className.replace('bg-red-600', 'bg-secondary-600');
+            }
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
